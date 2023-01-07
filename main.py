@@ -20,19 +20,33 @@ class Translator(Wox):
             url += query
             temp = requests.get(url, headers=header)
             soup = BeautifulSoup(temp.text, "html.parser")
-            eng_result = soup.find(name="div", attrs={"class": ["layout", "cn"]})
-            eng_result = eng_result.ul.contents
-            for i in range(len(eng_result)):
-                each = eng_result[i].text.strip()
-                if each == '':
-                    continue
-                else:
-                    output_results.append({
-                        "Title": each,
-                        "SubTitle": "from dict.cn",
-                        "IcoPath":"Images/icon.ico",
-                        "ContextData": "ctxData"
-                    })
+            eng_result = soup.find(name="div", attrs={"class": ["layout"]})
+            if eng_result is not None and eng_result.ul is not None:
+                eng_result = eng_result.ul.contents
+                for i in range(len(eng_result)):
+                    each = eng_result[i].text.strip()
+                    if each == '':
+                        continue
+                    else:
+                        output_results.append({
+                            "Title": each,
+                            "SubTitle": "from dict.cn",
+                            "IcoPath":"Images/icon.ico",
+                            "ContextData": "ctxData"
+                        })
+            else:
+                url = "https://translate.google.com/?sl=auto&tl=en&op=translate&text="
+                url += query
+                output_results.append({
+                    "Title": "Open Google Translation",
+                    "SubTitle": "dict.cn doesn't support sentence translation",
+                    "IcoPath":"Images/icon.ico",
+                    "JsonRPCAction": {
+                        "method": "openWeb",
+                        "parameters": [url], 
+                        "dontHideAfterAction": False
+                    }
+                })
             return output_results
         else:
             url = "https://dictionary.cambridge.org/zhs/%E8%AF%8D%E5%85%B8/%E8%8B%B1%E8%AF%AD-%E6%B1%89%E8%AF%AD-%E7%AE%80%E4%BD%93/"
