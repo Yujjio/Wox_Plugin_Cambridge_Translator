@@ -1,12 +1,12 @@
 {
-    "ID":"f3782694-8d75-11ed-a1eb-0242ac120002",
-    "ActionKeyword":"yd",
+    "ID":"CDED566396FE47CC9833B6C50463B473",
+    "ActionKeyword":"tr",
     "Name":"En-Cn translator",
-    "Description":"translate from English to Chinese",
+    "Description":"translate between English and Chinese",
     "Author":"Ray",
-    "Version":"1.0",
+    "Version":"1.3.524",
     "Language":"python",
-    "Website":"https://github.com/Wox-launche/Wox",
+    "Website":"https://github.com/Yujjio",
     "IcoPath":"Images\\icon.ico",
     "ExecuteFileName":"main.py"
 }
