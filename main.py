@@ -2,6 +2,7 @@ from wox import Wox
 import requests
 from bs4 import BeautifulSoup
 import webbrowser
+import pyperclip
 
 class Translator(Wox):
     def is_chinese(self, strs):
@@ -15,7 +16,21 @@ class Translator(Wox):
     def query(self, query):
         header = {"User-Agent": "Mozilla/5.0"}
         output_results = []
-        if self.is_chinese(str(query)):
+        if query == "|":
+            url = "https://www.deepl.com/translator#en/zh/"
+            url += pyperclip.paste()
+            output_results.append({
+                "Title": "Open DeepL Translation",
+                "SubTitle": "translate content in clipboard",
+                "IcoPath":"Images/icon.ico",
+                "JsonRPCAction": {
+                    "method": "openWeb",
+                    "parameters": [url], 
+                    "dontHideAfterAction": False
+                }
+            })
+            return output_results
+        elif self.is_chinese(str(query)):
             url = "https://dict.cn/search?q="
             url += query
             temp = requests.get(url, headers=header)
@@ -35,10 +50,10 @@ class Translator(Wox):
                             "ContextData": "ctxData"
                         })
             else:
-                url = "https://translate.google.com/?sl=auto&tl=en&op=translate&text="
+                url = "https://www.deepl.com/translator#en/zh/"
                 url += query
                 output_results.append({
-                    "Title": "Open Google Translation",
+                    "Title": "Open DeepL Translation",
                     "SubTitle": "dict.cn doesn't support sentence translation",
                     "IcoPath":"Images/icon.ico",
                     "JsonRPCAction": {
@@ -63,10 +78,10 @@ class Translator(Wox):
                         "ContextData": "ctxData"
                     })   
             else:
-                url = "https://translate.google.com/?sl=auto&tl=zh-CN&op=translate&text="
+                url = "https://www.deepl.com/translator#en/zh/"
                 url += query
                 output_results.append({
-                    "Title": "Open Google Translation",
+                    "Title": "Open DeepL Translation",
                     "SubTitle": "Cambridge Dictionary doesn't support sentence translation",
                     "IcoPath":"Images/icon.ico",
                     "JsonRPCAction": {
