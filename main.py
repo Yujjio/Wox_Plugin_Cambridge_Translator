@@ -17,20 +17,8 @@ class Translator(Wox):
         header = {"User-Agent": "Mozilla/5.0"}
         output_results = []
         if query == "|":
-            url = "https://www.deepl.com/translator#en/zh/"
-            url += pyperclip.paste()
-            output_results.append({
-                "Title": "Open DeepL Translation",
-                "SubTitle": "translate content in clipboard",
-                "IcoPath":"Images/icon.ico",
-                "JsonRPCAction": {
-                    "method": "openWeb",
-                    "parameters": [url], 
-                    "dontHideAfterAction": False
-                }
-            })
-            return output_results
-        elif self.is_chinese(str(query)):
+            query = pyperclip.paste()
+        if self.is_chinese(str(query)):
             url = "https://dict.cn/search?q="
             url += query
             temp = requests.get(url, headers=header)
